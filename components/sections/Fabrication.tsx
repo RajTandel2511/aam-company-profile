@@ -1,5 +1,5 @@
 import { services } from "@/lib/content";
-import FabFigure from "./FabFigure";
+import FitGoredElbow from "./FitGoredElbow";
 import FabMarquee from "./FabMarquee";
 
 const BARS = ["var(--blue)", "var(--green)", "var(--red)"];
@@ -27,7 +27,7 @@ export default function Fabrication() {
           </ul>
         </div>
         <div className="lg:col-span-7">
-          <FabFigure />
+          <FitGoredElbow />
         </div>
       </div>
 
