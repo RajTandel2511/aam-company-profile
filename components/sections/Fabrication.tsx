@@ -1,16 +1,9 @@
 import { services } from "@/lib/content";
 import FabFigure from "./FabFigure";
 import FabMarquee from "./FabMarquee";
-import FabCutTable from "./FabCutTable";
-import FabLibrary from "./FabLibrary";
 
 const BARS = ["var(--blue)", "var(--green)", "var(--red)"];
 
-/**
- * The shop, told as a process: a finished duct run (fold + join + airflow),
- * the cutting table where every part starts as a flat pattern, the fitting
- * library (flat pattern <-> folded fitting), then the equipment we install.
- */
 export default function Fabrication() {
   const fab = services.find((sv) => sv.id === "fabrication");
   if (!fab) return null;
@@ -37,24 +30,6 @@ export default function Fabrication() {
           <FabFigure />
         </div>
       </div>
-
-      <div className="container-x mt-20 lg:mt-28">
-        <div className="mb-8 grid gap-4 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-6">
-            <p className="eyebrow reveal text-blue-ink">On the table</p>
-            <h3 className="display reveal mt-3 text-[clamp(1.75rem,3.6vw,2.75rem)] text-ink">
-              It starts as a flat sheet.
-            </h3>
-          </div>
-          <p className="reveal text-graphite lg:col-span-5 lg:col-start-8">
-            Duct and fittings are laid out as flat patterns, cut, then folded and seamed into shape — the
-            same way the pieces below come together.
-          </p>
-        </div>
-        <FabCutTable />
-      </div>
-
-      <FabLibrary />
 
       <div className="container-x mt-16 lg:mt-24">
         <h3 className="eyebrow text-graphite">Equipment we install</h3>
