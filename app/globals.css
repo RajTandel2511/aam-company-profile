@@ -1,0 +1,215 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * All Air Mechanical — design tokens, taken from the company logo.
+ *
+ * Brand originals (red / blue / green) are FILLS: lines, streams, shapes, large
+ * display type. Small TEXT uses the "-ink" variants on light backgrounds and the
+ * "-glow" variants on night, all measured to WCAG AA. Colours are stored as RGB
+ * channels so Tailwind opacity modifiers work (bg-blue/10).
+ *
+ * Everything is in @layer base / components so utilities always win the cascade.
+ */
+
+@layer base {
+  :root {
+    --paper-rgb: 245 245 242;
+    --white-rgb: 255 255 255;
+    --ink-rgb: 29 31 34; /* 15.1:1 on paper */
+    --graphite-rgb: 96 96 96; /* logo grey; muted text on paper 5.76:1 */
+    --silver-rgb: 162 162 162; /* logo light grey; lines on paper, muted text on night 6.97:1 */
+    --line-rgb: 221 221 216; /* hairlines on paper */
+    --night-rgb: 22 24 27; /* dark sections */
+    --panel-rgb: 32 35 39; /* raised surface on night */
+
+    --red-rgb: 234 54 42; /* logo red   #EA362A — fills; large text only (3.80:1) */
+    --blue-rgb: 0 120 192; /* logo blue  #0078C0 — fills; large text only (4.32:1) */
+    --green-rgb: 0 168 72; /* logo green #00A848 — fills ONLY on light (2.87:1) */
+
+    --red-ink-rgb: 196 43 33; /* #C42B21 text on paper 5.18:1; white on it 5.6:1 */
+    --blue-ink-rgb: 0 107 171; /* #006BAB text on paper 5.21:1 */
+    --green-ink-rgb: 0 125 53; /* #007D35 text on paper 4.82:1 */
+    --red-glow-rgb: 240 88 77; /* #F0584D text on night 5.26:1 */
+    --blue-glow-rgb: 63 163 230; /* #3FA3E6 text on night 6.43:1 */
+    --green-glow-rgb: 47 203 110; /* #2FCB6E text on night 8.38:1 */
+
+    --paper: rgb(var(--paper-rgb));
+    --white: rgb(var(--white-rgb));
+    --ink: rgb(var(--ink-rgb));
+    --graphite: rgb(var(--graphite-rgb));
+    --silver: rgb(var(--silver-rgb));
+    --line: rgb(var(--line-rgb));
+    --night: rgb(var(--night-rgb));
+    --panel: rgb(var(--panel-rgb));
+    --red: rgb(var(--red-rgb));
+    --blue: rgb(var(--blue-rgb));
+    --green: rgb(var(--green-rgb));
+    --red-ink: rgb(var(--red-ink-rgb));
+    --blue-ink: rgb(var(--blue-ink-rgb));
+    --green-ink: rgb(var(--green-ink-rgb));
+
+    --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+    --gutter: 20px;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+    color-scheme: light;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --gutter: 48px;
+    }
+  }
+
+  * {
+    min-width: 0;
+  }
+
+  html {
+    background: var(--paper);
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+  }
+
+  ::selection {
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--blue-ink);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Heavy geometric display — Montserrat echoes the logo's wordmark. */
+  .display {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 0.98;
+  }
+
+  /* Small spec-sheet label: the "engineering drawing" voice. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  .container-x {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .section {
+    position: relative;
+    padding-block: 96px;
+  }
+
+  @media (min-width: 768px) {
+    .section {
+      padding-block: 140px;
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 15px 26px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+    border: 2px solid transparent;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+      transform 0.2s var(--ease-out);
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  /* White on the text-safe red (5.6:1). Brand red #EA362A would fail AA here. */
+  .btn-primary {
+    background: var(--red-ink);
+    color: var(--white);
+  }
+
+  .btn-primary:hover {
+    background: rgb(var(--ink-rgb));
+  }
+
+  .btn-outline {
+    border-color: currentColor;
+  }
+
+  .btn-outline:hover {
+    background: rgb(var(--ink-rgb) / 0.06);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  }
+
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}

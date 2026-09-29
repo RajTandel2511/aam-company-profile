@@ -1,0 +1,80 @@
+/* Ambient flows for the systems drawing. Paused unless the drawing is on screen
+   (.live on the wrapper), and never shown under reduced motion. */
+
+.particle {
+  offset-rotate: 0deg;
+  animation-name: travel;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+}
+
+.wisp {
+  animation: wisp 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation-play-state: paused;
+}
+
+.live .particle,
+.live .wisp {
+  animation-play-state: running;
+}
+
+@keyframes travel {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  6%,
+  92% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes wisp {
+  0% {
+    transform: translateY(-2px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+}
+
+/* Three-stream underline under the section heading: draws when .reveal gets .in. */
+.streams path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.streams path:nth-child(2) {
+  transition-delay: 0.12s;
+}
+
+.streams path:nth-child(3) {
+  transition-delay: 0.24s;
+}
+
+:global(.in) .streams path {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particle,
+  .wisp {
+    display: none;
+  }
+
+  .streams path {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+}

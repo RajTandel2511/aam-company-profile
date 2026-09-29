@@ -1,0 +1,91 @@
+/* Ambient loops run only while the map is on screen (.live) and never under reduced motion. */
+
+.flow {
+  opacity: 0;
+  stroke-dasharray: var(--dash);
+  stroke-dashoffset: 1;
+  animation: flow var(--dur) linear var(--delay) infinite paused;
+  transition: opacity 0.6s ease;
+}
+
+.live .flow {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.pulse {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 2.8s var(--ease-out) var(--delay, 0s) infinite paused;
+}
+
+.live .pulse {
+  animation-play-state: running;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+
+/* Map labels are sized in map units: large on a phone-width map, smaller on wide ones. */
+.label {
+  font-size: 27px;
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: var(--night);
+  stroke-width: 6px;
+  stroke-linejoin: round;
+}
+
+.tier1,
+.axis {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .label {
+    font-size: 19px;
+    stroke-width: 5px;
+  }
+
+  .tier1,
+  .axis {
+    display: inline;
+  }
+}
+
+.enter {
+  animation: enter 0.45s var(--ease-out);
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow,
+  .pulse {
+    display: none;
+  }
+
+  .enter {
+    animation: none;
+  }
+}

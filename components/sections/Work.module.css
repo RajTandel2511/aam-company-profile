@@ -1,0 +1,94 @@
+/*
+ * Work section motion.
+ * Cards: the list re-mounts on a filter change; old cards fade/scale out
+ * (.leaving), new ones rise in with a 60ms stagger (.enter, --i = index, capped).
+ * Photos: a brand-blue panel (with a red/green trailing edge — the three streams)
+ * slides off each frame when the global Reveal adds .in to the figure.
+ */
+
+.card {
+  transition: opacity 160ms var(--ease-in-out), transform 160ms var(--ease-in-out),
+    border-color 200ms ease;
+}
+
+.leaving .card {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.edge {
+  transform-origin: top left;
+}
+
+/* `backwards` only: the fill must not outlive the animation, or it would
+   override .leaving on the next filter change. */
+.enter .card {
+  animation: rise 340ms var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+.enter .edge {
+  animation: edge 480ms var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 60ms + 90ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes edge {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+/* ---- Photo panel wipe ---- */
+
+.wipe {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    var(--red) 0 6px,
+    var(--green) 6px 12px,
+    var(--blue) 12px
+  );
+  transition: transform 950ms var(--ease-in-out) calc(var(--d, 0ms) + 220ms);
+}
+
+.img {
+  transform: scale(1.14);
+  transition: transform 1600ms var(--ease-out) calc(var(--d, 0ms) + 260ms);
+}
+
+:global(.reveal.in) .wipe {
+  transform: translateX(101%);
+}
+
+:global(.reveal.in) .img {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter .card,
+  .enter .edge {
+    animation: none;
+  }
+
+  .leaving .card {
+    opacity: 1;
+    transform: none;
+  }
+
+  .wipe {
+    display: none;
+  }
+
+  .img {
+    transform: none;
+  }
+}

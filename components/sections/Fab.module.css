@@ -1,0 +1,73 @@
+/* Hairline drafting grid behind the duct drawing. */
+.drafting {
+  background-color: rgb(var(--white-rgb));
+  background-image: linear-gradient(rgb(var(--line-rgb) / 0.7) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--line-rgb) / 0.7) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: -1px -1px;
+}
+
+/* Air moving through the finished run. */
+.flow {
+  stroke-dasharray: 10 14;
+  animation: flow 0.9s linear infinite;
+  animation-play-state: paused;
+}
+
+.live .flow {
+  animation-play-state: running;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+/* Equipment names, drifting slowly past. */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: marquee 42s linear infinite;
+  animation-play-state: paused;
+}
+
+.live .track {
+  animation-play-state: running;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow,
+  .track {
+    animation: none;
+  }
+
+  .marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .track {
+    width: auto;
+  }
+
+  .track > :first-child {
+    flex-wrap: wrap;
+  }
+
+  .dup {
+    display: none;
+  }
+}

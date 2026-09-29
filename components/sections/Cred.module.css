@@ -1,0 +1,114 @@
+/*
+ * Engraved nameplates. Brushed steel = a soft directional sheen plus fine
+ * horizontal grain. Text is ink: 14.2:1 on the lightest stop (#ECEEEF),
+ * 9.9:1 on the darkest with grain (#C5C9CC); ink/80 muted text >= 6.1:1.
+ */
+.wrap {
+  position: relative;
+}
+
+.shadow {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  box-shadow: 0 16px 30px -14px rgb(var(--ink-rgb) / 0.45), 0 2px 4px rgb(var(--ink-rgb) / 0.12);
+}
+
+.plate {
+  position: relative;
+  height: 100%;
+  border-radius: 8px;
+  border: 1px solid rgb(var(--ink-rgb) / 0.22);
+  background: repeating-linear-gradient(180deg, rgb(255 255 255 / 0.2) 0 1px, rgb(0 0 0 / 0.03) 1px 2px, transparent 2px 3px),
+    linear-gradient(105deg, #d3d7da 0%, #eceeef 30%, #cfd3d6 58%, #e3e6e8 80%, #cbcfd2 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.75), inset 0 -1px 0 rgb(0 0 0 / 0.12);
+}
+
+/* Letters cut into the metal: a light lip below each stroke. */
+.engraved {
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.7), 0 -1px 0 rgb(0 0 0 / 0.1);
+}
+
+.rivet {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, #fff 0, #dde0e2 28%, #8e9498 72%, #6c7276 100%);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 0.35), inset 0 -1px 1px rgb(0 0 0 / 0.2);
+}
+
+/* Stamp: the plate drops from 8% oversize, overshoots a hair and settles
+   (easeOutBack); its shadow tightens on impact, then relaxes. */
+.armed .plate,
+.armed .shadow {
+  opacity: 0;
+}
+
+.play .plate {
+  animation: stamp 620ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--d, 0ms) both;
+}
+
+.play .shadow {
+  animation: press 620ms cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms) both;
+}
+
+@keyframes stamp {
+  from {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+  40% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes press {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(1.05);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(-4px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Seal ring around SBE & MBE: turns slowly, only while on screen. */
+.spin {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: spin 48s linear infinite;
+  animation-play-state: paused;
+}
+
+.live .spin {
+  animation-play-state: running;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .armed .plate,
+  .armed .shadow {
+    opacity: 1;
+  }
+
+  .play .plate,
+  .play .shadow,
+  .spin {
+    animation: none;
+  }
+}

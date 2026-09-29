@@ -1,0 +1,91 @@
+/*
+ * Contact CTA streams: the logo's three airflow ribbons draw on from the left
+ * (pathLength=1 dash trick), their arrowheads settle in, then a light dash
+ * pattern flows along each ribbon. The flow only runs while on screen (.live)
+ * and never under reduced motion, which shows the finished drawing.
+ */
+
+.bleed {
+  margin-inline: calc(var(--gutter) * -1);
+}
+
+@media (min-width: 1024px) {
+  .bleed {
+    /* reach the viewport's left edge even past the 1280px container */
+    margin-left: calc(min(0px, (1280px - 100vw) / 2) - var(--gutter));
+    margin-right: 28px;
+  }
+}
+
+/* Faint drafting grid behind the streams, fading out at both ends. */
+.drafting {
+  background-image: linear-gradient(to right, rgb(var(--ink-rgb) / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(var(--ink-rgb) / 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: right center;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 35%, #000 80%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 35%, #000 80%, transparent);
+}
+
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1500ms var(--ease-in-out) var(--d, 0ms);
+}
+
+.seen .draw {
+  stroke-dashoffset: 0;
+}
+
+.head {
+  opacity: 0;
+  transform: translateX(-10px);
+  transform-box: fill-box;
+  transition: opacity 450ms var(--ease-out), transform 700ms var(--ease-out);
+  transition-delay: calc(var(--d, 0ms) + 1250ms);
+}
+
+.seen .head {
+  opacity: 1;
+  transform: none;
+}
+
+.flow {
+  stroke-dasharray: 0.006 0.044;
+  opacity: 0;
+  transition: opacity 800ms ease calc(var(--d, 0ms) + 1400ms);
+  animation: flow 1300ms linear infinite;
+  animation-play-state: paused;
+}
+
+.seen .flow {
+  opacity: 0.7;
+}
+
+.live .flow {
+  animation-play-state: running;
+}
+
+/* one full dash period, so the loop is seamless */
+@keyframes flow {
+  to {
+    stroke-dashoffset: -0.05;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draw {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .head {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .flow {
+    display: none;
+  }
+}
