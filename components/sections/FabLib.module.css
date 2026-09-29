@@ -1,0 +1,54 @@
+/* Drafting-paper stage behind each fitting. */
+.stage {
+  background-color: rgb(var(--white-rgb));
+  background-image: linear-gradient(rgb(var(--line-rgb) / 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--line-rgb) / 0.55) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: -1px -1px;
+}
+
+/* Airflow arrow: hidden while the fitting is open, drawn on once it is folded. */
+.draw {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+}
+
+.fade {
+  opacity: 0;
+}
+
+.on .draw,
+.on .fade {
+  transition-duration: 0.45s;
+  transition-timing-function: var(--ease-out);
+}
+
+.on .draw {
+  stroke-dashoffset: 0;
+  transition-property: stroke-dashoffset;
+}
+
+.on .fade {
+  opacity: 1;
+  transition-property: opacity;
+}
+
+.on .d1 {
+  transition-delay: 0.3s;
+}
+
+.on .d2 {
+  transition-delay: 0.55s;
+}
+
+.on .d3 {
+  transition-delay: 0.9s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .on .d1,
+  .on .d2,
+  .on .d3 {
+    transition-delay: 0s;
+  }
+}
