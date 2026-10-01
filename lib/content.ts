@@ -6,8 +6,9 @@
  *   [jobs]  Spectrum active-job reports, 2026-08-05 — project NAMES and CITIES only.
  *           Contract values, billing and cost in those reports are confidential and
  *           deliberately never copied here.
- *   [ops]   AAM operations: the in-house sheet-metal fab shop (Vulcan / FabShop) and
- *           the plumbing trade AAM estimates and installs.
+ *   [ops]   AAM operations: the in-house sheet-metal fab shop (Vulcan / FabShop), which
+ *           fabricates rectangular duct only. Plumbing is subcontracted, so it is NOT
+ *           presented anywhere on this page as a self-performed service.
  */
 
 export const company = {
@@ -47,7 +48,7 @@ export const stats = [
   { value: 50, suffix: "+", label: "People in the field and the shop", note: "Company record" }, // [site] 52 employees
 ] as const;
 
-export type ServiceId = "hvac" | "sheetmetal" | "plumbing" | "controls" | "maintenance" | "fabrication";
+export type ServiceId = "hvac" | "sheetmetal" | "exhaust" | "controls" | "maintenance" | "fabrication";
 
 export const services: {
   id: ServiceId;
@@ -74,12 +75,12 @@ export const services: {
     source: "site",
   },
   {
-    id: "plumbing",
-    title: "Plumbing",
-    short: "Plumbing",
-    body: "Domestic water, waste and vent, and the piping that ties mechanical systems together.",
-    items: ["Domestic water", "Waste & vent", "Mechanical piping"],
-    source: "ops",
+    id: "exhaust",
+    title: "Exhaust & Outside Air",
+    short: "Exhaust",
+    body: "The ventilation side of every system: exhaust that carries stale air out of the building, and outside air that brings fresh air in.",
+    items: ["Exhaust fans & ductwork", "Outside-air intake", "Fresh-air ventilation"],
+    source: "site",
   },
   {
     id: "controls",
@@ -102,7 +103,7 @@ export const services: {
     title: "In-House Fabrication",
     short: "Fab Shop",
     body: "Ductwork and sheet metal fabricated in our own South San Francisco shop — so fit, schedule and quality stay in our hands.",
-    items: ["Rectangular & round duct", "Fittings & transitions", "Architectural trim"],
+    items: ["Rectangular duct", "Fittings, elbows & transitions", "Architectural trim"],
     source: "ops",
   },
 ];

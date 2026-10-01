@@ -23,8 +23,8 @@ function Header() {
           <path d="M 3 24 C 80 20 170 22 234 30" pathLength={1} stroke="var(--red)" />
         </svg>
         <p className="mt-6 max-w-xl text-graphite">
-          Follow one typical commercial building as each trade goes in — the envelope, the air, the water, the controls,
-          and the care that keeps them all running.
+          Follow one typical commercial building as each trade goes in — the envelope, the air, the exhaust and fresh
+          air, the controls, and the care that keeps them all running.
         </p>
       </div>
     </header>

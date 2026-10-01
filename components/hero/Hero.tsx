@@ -103,7 +103,7 @@ export default function Hero() {
             className={`mt-8 max-w-[34ch] text-lg leading-relaxed text-graphite [text-shadow:0_0_2px_var(--paper),0_0_8px_var(--paper)] md:text-xl ${s.rise}`}
             style={delay(0.35)}
           >
-            HVAC, plumbing and architectural sheet metal for the Bay Area&rsquo;s builders — {certification}.
+            HVAC, ventilation and architectural sheet metal for the Bay Area&rsquo;s builders — {certification}.
           </p>
 
           <div className={`mt-9 flex flex-wrap gap-3 ${s.rise}`} style={delay(0.5)}>

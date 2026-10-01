@@ -56,6 +56,7 @@ export function Callout({
 /**
  * `count` particles evenly spaced along one path, moving at `speed` units/s.
  * CSS offset-path reuses the drawn path string, so they stay inside the duct.
+ * `phase` (0..1) shifts them along the path, so single-particle routes don't start in step.
  */
 export function Flow({
   d,
@@ -65,6 +66,7 @@ export function Flow({
   r = 2.3,
   speed = 70,
   stroke,
+  phase = 0,
 }: {
   d: string;
   len: number;
@@ -73,6 +75,7 @@ export function Flow({
   r?: number;
   speed?: number;
   stroke?: string;
+  phase?: number;
 }) {
   const dur = len / speed;
   return (
@@ -88,7 +91,7 @@ export function Flow({
           style={{
             offsetPath: `path('${d}')`,
             animationDuration: `${dur.toFixed(2)}s`,
-            animationDelay: `${(-(i / count) * dur).toFixed(2)}s`,
+            animationDelay: `${(-((i / count + phase) % 1) * dur).toFixed(2)}s`,
           }}
         />
       ))}

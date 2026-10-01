@@ -1,7 +1,7 @@
 /**
  * Parametric geometry for the systems section drawing. Everything routes off
  * these numbers, and the flowing particles reuse the exact path strings the
- * drawing strokes, so air and water always travel inside their own ducts/pipes.
+ * drawing strokes, so air and data always travel inside their own ducts and lines.
  * Units are SVG user units in an 880 x 672 viewBox.
  */
 
@@ -64,26 +64,42 @@ export const returnFlow = (ceil: number) => {
 export const supplyLen = (ceil: number) => supY(ceil) - R - RTU_BASE + quarter + (SUP_END - SUPPLY_X - R);
 export const returnLen = (ceil: number) => retY(ceil) - R - RTU_BASE + quarter + (RET_START - RETURN_X - R);
 
-/* ------------------------------------------------------------ PLUMBING -- */
+/* ----------------------------------------------- EXHAUST & OUTSIDE AIR -- */
 
-export const MAIN = { x: 812, y: 626, r: 8 }; // water main in the street, in section
-export const RISER_X = 704;
-export const STACK_X = 630;
-export const FIX_X = 664;
-const SEWER_Y = 646;
+/** Exhaust riser by the east wall, clear of the controls riser (x 610) and the counter-flashing. */
+export const EXH_X = 688;
+export const GRILLE_X = 646;
+/** Up-blast exhaust fan over the riser: curb top, housing top, windband rim. Roof at 190. */
+export const FAN = { x: EXH_X, curb: 180, base: 164, top: 140 };
+/** Tip of the discharge arrow above the windband; the plume particles fade out here. */
+export const PLUME_TOP = 104;
 
-export const waterY = (floor: number) => floor - 16;
-export const drainY = (floor: number) => floor - 8;
+const exhY = (ceil: number) => ceil + 17; // same plenum height as the return
+export const grilleY = (ceil: number) => ceil + 35; // grille face sits on the ceiling line (ceil + 42)
 
-export const waterService = `M ${MAIN.x - MAIN.r} ${MAIN.y} H ${RISER_X + R} Q ${RISER_X} ${MAIN.y} ${RISER_X} ${MAIN.y - R} V ${waterY(290)}`;
-export const waterServiceLen = MAIN.x - MAIN.r - RISER_X - R + quarter + (MAIN.y - R - waterY(290));
-/** Riser -> under the counter -> up through it into the spout. */
-export const waterBranch = (floor: number) =>
-  `M ${RISER_X} ${waterY(floor)} H ${FIX_X + 15} V ${floor - 40} H ${FIX_X + 4} V ${floor - 35}`;
-export const drainBranch = (floor: number) => `M ${FIX_X} ${floor - 21} V ${drainY(floor)} H ${STACK_X}`;
-export const vent = `M ${STACK_X} 170 V ${drainY(290)}`;
-export const wasteStack = `M ${STACK_X} ${drainY(290)} V ${SEWER_Y - 16} Q ${STACK_X} ${SEWER_Y} ${STACK_X + 16} ${SEWER_Y} H 856`;
-export const wasteLen = SEWER_Y - 16 - drainY(290) + (Math.PI / 2) * 16 + (856 - STACK_X - 16);
+/** Riser, drawn bottom-up from the L1 takeoff to the curb. */
+export const exhaustRiser = `M ${EXH_X} ${exhY(490) - R} V ${ROOF}`;
+/** Drawn branch: from the riser out along the plenum and down into the ceiling grille. */
+export const exhaustBranch = (ceil: number) => {
+  const y = exhY(ceil);
+  return `M ${EXH_X} ${y - R} Q ${EXH_X} ${y} ${EXH_X - R} ${y} H ${GRILLE_X + R} Q ${GRILLE_X} ${y} ${GRILLE_X} ${y + R} V ${grilleY(ceil)}`;
+};
+/** Particle route: grille -> branch -> up the riser -> through the fan -> out as a plume. */
+export const exhaustFlow = (ceil: number) => {
+  const y = exhY(ceil);
+  return `M ${GRILLE_X} ${grilleY(ceil) + 3} V ${y + R} Q ${GRILLE_X} ${y} ${GRILLE_X + R} ${y} H ${EXH_X - R} Q ${EXH_X} ${y} ${EXH_X} ${y - R} V ${PLUME_TOP}`;
+};
+export const exhaustLen = (ceil: number) =>
+  grilleY(ceil) + 3 - exhY(ceil) - R + 2 * quarter + (EXH_X - GRILLE_X - 2 * R) + (exhY(ceil) - R - PLUME_TOP);
+
+/**
+ * Outside-air hood on the RTU's east end with a louvred face. Fresh air comes straight in
+ * at OA.y, well clear of the controls link (y 180); it vanishes under the hood and the unit.
+ */
+export const OA = { x: RTU.x + RTU.w, face: RTU.x + RTU.w + 18, y: 162, tail: 392 };
+export const oaHood = `M ${OA.x} 146 L ${OA.face} 153 V 171 H ${OA.x}`;
+export const oaFlow = `M ${OA.tail} ${OA.y} H ${OA.x - 12}`;
+export const oaLen = OA.tail - OA.x + 12;
 
 /* ------------------------------------------------------------ CONTROLS -- */
 
@@ -109,9 +125,9 @@ export const dataRouteLens = [
 
 /* ------------------------------------------------------------- SERVICE -- */
 
-/** Inspection stops: where the ring visits, when, and where its tick lands. */
+/** Inspection stops: RTU, exhaust fan, controls — where the ring visits, when, and where its tick lands. */
 export const STOPS = [
-  { x: 230, y: 162, a: 0.8, b: 0.84, tx: 362, ty: 136 },
-  { x: RISER_X, y: 440, a: 0.87, b: 0.905, tx: 792, ty: 440 },
-  { x: DATA_X, y: 553, a: 0.93, b: 0.965, tx: 670, ty: 520 },
+  { x: 230, y: 162, a: 0.8, b: 0.84, tx: 230, ty: 84 },
+  { x: FAN.x, y: 162, a: 0.87, b: 0.905, tx: 790, ty: 100 },
+  { x: DATA_X, y: 553, a: 0.93, b: 0.965, tx: 684, ty: 566 },
 ] as const;

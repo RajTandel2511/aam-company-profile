@@ -5,7 +5,7 @@ import { company } from "@/lib/content";
 export const metadata: Metadata = {
   title: `${company.name} — ${company.tagline}`,
   description:
-    "HVAC, plumbing and architectural sheet metal for Bay Area builders since 1994. An SBE & MBE company, headquartered in South San Francisco.",
+    "HVAC, ventilation and architectural sheet metal for Bay Area builders since 1994. An SBE & MBE company, headquartered in South San Francisco.",
   // Concept draft: reachable by link, kept out of search results until AAM approves it.
   robots: { index: false, follow: false },
 };

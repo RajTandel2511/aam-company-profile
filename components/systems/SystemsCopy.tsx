@@ -2,7 +2,7 @@ import { seg } from "@/lib/motion";
 import { services, type ServiceId } from "@/lib/content";
 
 /** The five services the drawing tells, in build order (fabrication has its own section). */
-const ORDER: ServiceId[] = ["sheetmetal", "hvac", "plumbing", "controls", "maintenance"];
+const ORDER: ServiceId[] = ["sheetmetal", "hvac", "exhaust", "controls", "maintenance"];
 
 export const STAGES = ORDER.map((id) => {
   const s = services.find((x) => x.id === id);
@@ -14,7 +14,7 @@ export const STAGES = ORDER.map((id) => {
 const TONE: Record<string, { fill: string; text: string }> = {
   sheetmetal: { fill: "bg-graphite", text: "text-graphite" },
   hvac: { fill: "bg-blue", text: "text-blue-ink" },
-  plumbing: { fill: "bg-green", text: "text-green-ink" },
+  exhaust: { fill: "bg-green", text: "text-green-ink" },
   controls: { fill: "bg-red", text: "text-red-ink" },
   maintenance: { fill: "bg-ink", text: "text-ink" },
 };

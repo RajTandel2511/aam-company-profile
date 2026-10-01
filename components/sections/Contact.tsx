@@ -55,7 +55,7 @@ export default function Contact() {
             Send us the plans.
           </h2>
           <p className="mt-6 max-w-xl text-lg text-graphite">
-            HVAC, plumbing, architectural sheet metal, controls — send drawings and specs and we will put a bid together.
+            HVAC, ventilation, architectural sheet metal, controls — send drawings and specs and we will put a bid together.
           </p>
         </div>
 

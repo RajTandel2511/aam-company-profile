@@ -1,25 +1,26 @@
 import { seg } from "@/lib/motion";
 import Controls from "./Controls";
+import Exhaust from "./Exhaust";
 import Hvac from "./Hvac";
-import Plumbing from "./Plumbing";
 import Service from "./Service";
 import Structure, { StructureGhost } from "./Structure";
 import { VB_H, VB_W } from "./geometry";
 
 const LABEL =
   "Section drawing of a four-storey commercial building, built up system by system: architectural sheet metal at the " +
-  "roof edge and walls; a rooftop HVAC unit with supply and return ducts on every floor; domestic water rising from the " +
-  "street main to fixtures on each floor, with waste and vent; EMS controls linking every floor and the rooftop unit to " +
-  "a panel; and preventative-maintenance checks on the rooftop unit, the riser and the controls.";
+  "roof edge and walls; a rooftop HVAC unit with supply and return ducts on every floor; an exhaust grille on every " +
+  "floor ducted to a riser and a rooftop exhaust fan, with an outside-air hood bringing fresh air into the rooftop unit; " +
+  "EMS controls linking every floor and the rooftop unit to a panel; and preventative-maintenance checks on the rooftop " +
+  "unit, the exhaust fan and the controls.";
 
-const STATUS = ["ARCHITECTURAL SHEET METAL", "HEATING, VENTILATION & AIR CONDITIONING", "PLUMBING", "EMS & CONTROLS", "MAINTENANCE"];
+const STATUS = ["ARCHITECTURAL SHEET METAL", "HEATING, VENTILATION & AIR CONDITIONING", "EXHAUST & OUTSIDE AIR", "EMS & CONTROLS", "MAINTENANCE"];
 
 type Swatch = "line" | "dash" | "ring";
 const LEGEND: { x: number; y: number; label: string; color: string; kind: Swatch; at: number }[] = [
   { x: 24, y: 626, label: "ARCH. SHEET METAL", color: "var(--graphite)", kind: "line", at: 0.1 },
   { x: 24, y: 642, label: "SUPPLY AIR", color: "var(--blue)", kind: "line", at: 0.24 },
   { x: 24, y: 658, label: "RETURN AIR", color: "var(--red)", kind: "line", at: 0.285 },
-  { x: 250, y: 626, label: "DOMESTIC WATER · WASTE & VENT", color: "var(--green)", kind: "line", at: 0.41 },
+  { x: 250, y: 626, label: "EXHAUST · OUTSIDE AIR", color: "var(--green)", kind: "line", at: 0.41 },
   { x: 250, y: 642, label: "EMS / CONTROLS · VALUES ILLUSTRATIVE", color: "var(--red)", kind: "dash", at: 0.615 },
   { x: 250, y: 658, label: "PREVENTATIVE MAINTENANCE", color: "var(--ink)", kind: "ring", at: 0.8 },
 ];
@@ -61,7 +62,7 @@ export default function SystemsDrawing({ p, flows }: { p: number; flows: boolean
 
       <StructureGhost />
       <Structure p={p} />
-      <Plumbing p={p} flows={flows} />
+      <Exhaust p={p} flows={flows} />
       <Hvac p={p} flows={flows} />
       <Controls p={p} flows={flows} />
       <Service p={p} />
